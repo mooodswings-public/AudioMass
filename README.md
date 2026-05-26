@@ -50,7 +50,7 @@ If you want to package/minify the scripts into `all.build.js` for production pub
 
 ## Credits
 
-Respect abd credits go to https://github.com/pkalogiros
+Respect and credits go to https://github.com/pkalogiros
 
 
 ```bash
