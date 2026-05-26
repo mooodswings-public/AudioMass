@@ -30,8 +30,19 @@
 
 
 	<link rel="stylesheet" type="text/css" href="main.css">
+	<link rel="stylesheet" type="text/css" href="themes.css">
 </head>
 <body>
+	<script>
+		(function() {
+			var theme = localStorage.getItem('pk_theme');
+			if (theme === 'ableton') {
+				document.body.classList.add('pk_theme_ableton');
+			} else if (theme === 'light') {
+				document.body.classList.add('pk_theme_light');
+			}
+		})();
+	</script>
 	<div id="app"></div>
 
 	<script src="dist/wavesurfer.js"></script>

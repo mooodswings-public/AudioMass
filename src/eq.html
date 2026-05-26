@@ -130,6 +130,47 @@
 			}
 		};
 
+		// Theme detection — same pattern as sp.html
+		var theme = 'cyberpunk';
+		try {
+			var parentDoc = iframe ? w.parent.document : (w.opener ? w.opener.document : null);
+			if (parentDoc && parentDoc.body) {
+				if (parentDoc.body.classList.contains('pk_theme_ableton')) theme = 'ableton';
+				else if (parentDoc.body.classList.contains('pk_theme_light')) theme = 'light';
+			}
+		} catch (e) {}
+
+		// Set background color based on theme
+		if (theme === 'ableton') {
+			d.body.style.background = '#282828';
+		} else if (theme === 'light') {
+			d.body.style.background = '#f4f5f8';
+		} else {
+			d.body.style.background = '#111111';
+		}
+
+		// Theme-specific bar color function
+		w.getBarColor = function (barHeight) {
+			if (theme === 'ableton') {
+				// Warm Ableton orange-yellow gradient
+				var ratio = barHeight / 255;
+				var r = Math.round(180 + ratio * 75);   // 180 → 255
+				var g = Math.round(60 + ratio * 170);    // 60 → 230
+				var b = Math.round(15 + ratio * 20);     // 15 → 35
+				return 'rgb(' + r + ',' + g + ',' + b + ')';
+			} else if (theme === 'light') {
+				// Electric blue gradient (matches Alabaster accent)
+				var ratio = barHeight / 255;
+				var r = Math.round(0 + ratio * 40);       // 0 → 40
+				var g = Math.round(80 + ratio * 135);      // 80 → 215
+				var b = Math.round(180 + ratio * 50);      // 180 → 230
+				return 'rgb(' + r + ',' + g + ',' + b + ')';
+			} else {
+				// Cyberpunk: original red-hot gradient
+				return 'rgb(' + (barHeight + 100) + ',50,50)';
+			}
+		};
+
 		setTimeout(function () {
 			if (!iframe)
 			{
@@ -148,6 +189,9 @@
 			var value_changed = false;
 			ctx.clearRect (0, 0, WIDTH, HEIGHT);
 
+			// Pre-compute clear color
+			var clearColor = theme === 'ableton' ? '#282828' : (theme === 'light' ? '#f4f5f8' : 'rgb(0, 0, 0)');
+
 			function draw( similarity ) {
 
 				var WIDTH = window.innerWidth, HEIGHT = window.innerHeight;
@@ -158,22 +202,24 @@
 					canvas.height = HEIGHT;
 				}
 
-				  ctx.fillStyle = 'rgb(0, 0, 0)';
+				  ctx.fillStyle = clearColor;
 				  ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
 				  var barWidth = (WIDTH / bufferLength);
 				  var barHeight;
 				  var x = 0;
+				  // 1px gap between bars for clean Minimeters-inspired spacing
+				  var drawWidth = Math.max(1, barWidth - 1);
 
 				  for(var i = 0; i < bufferLength; i += 1) {
-					barHeight = similarity[i * 2]; // ? similarity[i] : 0;
+					barHeight = similarity[i * 2];
 
 					// bar height normalize with 255
 					var newheight = ((barHeight / 256) * HEIGHT) >> 0;
 
-					ctx.fillStyle = 'rgb(' + (barHeight + 100) + ',50,50)';
-					ctx.fillRect (x,HEIGHT - newheight, barWidth, newheight);
-					x += barWidth;// + 1;
+					ctx.fillStyle = w.getBarColor(barHeight);
+					ctx.fillRect (x, HEIGHT - newheight, drawWidth, newheight);
+					x += barWidth;
 				  }
 
 				  value_changed = false;

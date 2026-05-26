@@ -128,38 +128,86 @@
 			}
 		};
 
-		w.getGrayColor = function(value) {
-    		return 'rgb(V, V, V)'.replace(/V/g, 255 - value);
-  		};
-		
+		// Theme detection
+		var theme = 'cyberpunk';
+		try {
+			var parentDoc = iframe ? w.parent.document : (w.opener ? w.opener.document : null);
+			if (parentDoc && parentDoc.body) {
+				if (parentDoc.body.classList.contains('pk_theme_ableton')) theme = 'ableton';
+				else if (parentDoc.body.classList.contains('pk_theme_light')) theme = 'light';
+			}
+		} catch (e) {}
+
+		// Set background color of body based on theme
+		if (theme === 'ableton') {
+			d.body.style.background = '#282828';
+		} else if (theme === 'light') {
+			d.body.style.background = '#ffffff';
+		} else {
+			d.body.style.background = '#111111';
+		}
+
 		w.getFullColor = function(value) {
-			var colorPalette = {
-				0: [0,0,0],
-				10: [75, 0, 159],
-				20: [104,0,251],
-				30: [131,0,255],
-				40: [155,18,157],
-				50: [175, 37, 0],
-				60: [191, 59, 0],
-				70: [206, 88, 0],
-				80: [223, 132, 0],
-				90: [240, 188, 0],
-				100: [255, 252, 0]      
-			};
+			var colorPalette;
+			if (theme === 'ableton') {
+				// Warm Ableton Orange-Yellow Heatmap
+				colorPalette = {
+					0: [40, 40, 40],        // Ableton dark gray background
+					10: [75, 45, 40],
+					20: [110, 50, 40],
+					30: [145, 55, 35],
+					40: [180, 65, 30],
+					50: [210, 78, 25],
+					60: [230, 95, 20],
+					70: [245, 115, 20],
+					80: [255, 140, 30],
+					90: [255, 180, 45],     // Warm orange
+					100: [255, 230, 150]    // Light yellow glow
+				};
+			} else if (theme === 'light') {
+				// Clean Alabaster Daylight Slate Blue Spectrogram (Reverse Heatmap)
+				colorPalette = {
+					0: [255, 255, 255],     // Light mode white background
+					10: [240, 246, 255],
+					20: [215, 231, 253],
+					30: [175, 205, 252],
+					40: [130, 172, 250],
+					55: [85, 137, 245],
+					70: [40, 100, 235],
+					80: [20, 60, 200],
+					90: [5, 25, 150],       // Deep Slate Blue
+					100: [0, 5, 80]
+				};
+			} else {
+				// Cyberpunk Classic Heatmap
+				colorPalette = {
+					0: [0,0,0],
+					10: [75, 0, 159],
+					20: [104,0,251],
+					30: [131,0,255],
+					40: [155,18,157],
+					50: [175, 37, 0],
+					60: [191, 59, 0],
+					70: [206, 88, 0],
+					80: [223, 132, 0],
+					90: [240, 188, 0],
+					100: [255, 252, 0]      
+				};
+			}
 
 			//floor to nearest 10:
 			var decimalised = 100 * value / 255
-			var percent = decimalised / 100;
 			var floored = 10* Math.floor(decimalised / 10);
 			var distFromFloor = decimalised - floored;
 			var distFromFloorPercentage = distFromFloor/10;
 			var rangeToNextColor;
 
 			if (decimalised < 100){
+				// Fix the original bug where we subtracted next color from itself [floored+10] - [floored+10], yielding [0,0,0]
 				rangeToNextColor = [
-					colorPalette[floored + 10][0] - colorPalette[floored + 10][0],
-					colorPalette[floored + 10][1] - colorPalette[floored + 10][1],
-					colorPalette[floored + 10][2] - colorPalette[floored + 10][2]
+					colorPalette[floored + 10][0] - colorPalette[floored][0],
+					colorPalette[floored + 10][1] - colorPalette[floored][1],
+					colorPalette[floored + 10][2] - colorPalette[floored][2]
 				];
 			} else {
 				rangeToNextColor = [0,0,0];
@@ -171,7 +219,7 @@
 				colorPalette[floored][2] + distFromFloorPercentage * rangeToNextColor[2]
 			];
 
-			return "rgb(" + color[0] +", "+color[1] +"," + color[2]+")";
+			return "rgb(" + Math.round(color[0]) +", "+ Math.round(color[1]) +"," + Math.round(color[2])+")";
 		};
 
 		setTimeout(function () {
@@ -196,10 +244,10 @@
 			tempCanvas.width = WIDTH;
 			tempCanvas.height = HEIGHT;
 
-			// console.log(this.canvas.height, this.tempCanvas.height);
 			var tempCtx = tempCanvas.getContext ('2d');
 
-			ctx.clearRect (0, 0, WIDTH, HEIGHT);
+			ctx.fillStyle = theme === 'ableton' ? '#282828' : (theme === 'light' ? '#ffffff' : '#000000');
+			ctx.fillRect (0, 0, WIDTH, HEIGHT);
 
 			function draw( data ) {
 
@@ -215,20 +263,13 @@
 
 				tempCtx.drawImage (canvas, 0, 0, WIDTH, HEIGHT);
 
-				ctx.fillStyle = 'rgb(0, 0, 0)';
+				ctx.fillStyle = theme === 'ableton' ? '#282828' : (theme === 'light' ? '#ffffff' : '#000000');
 				ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
 				// Iterate over the frequencies.
 				for (var i = 0; i < data.length; ++i)
 				{
-					var value;
-					// Draw each pixel with the specific color.
-				//	if (this.log) {
-				//		logIndex = this.logScale(i, data.length);
-				//		value = data[logIndex];
-				//	} else {
-						value = data[i];
-				//	}
+					var value = data[i];
 
 					ctx.fillStyle = window.getFullColor(value);
 
@@ -236,16 +277,13 @@
 					var y = Math.round (percent * HEIGHT);
 
 					// draw the line at the right side of the canvas
-					ctx.fillRect(WIDTH - speed, HEIGHT - y,
-					speed, speed);
+					ctx.fillRect(WIDTH - speed, HEIGHT - y, speed, speed);
 				}
 
 				// Translate the canvas.
 				ctx.translate(-speed, 0);
 				// Draw the copied image.
-				// console.log(this.width, this.height);
-				ctx.drawImage (tempCanvas, 0, 0, WIDTH, HEIGHT,
-				0, 0, WIDTH, HEIGHT);
+				ctx.drawImage (tempCanvas, 0, 0, WIDTH, HEIGHT, 0, 0, WIDTH, HEIGHT);
 
 				// Reset the transformation matrix.
 				ctx.setTransform (1, 0, 0, 1, 0, 0);
@@ -260,8 +298,10 @@
 			};
 
 			w.update = function (freq_arr) {
-				if (!freq_arr)
-					ctx.clearRect (0, 0, WIDTH, HEIGHT);
+				if (!freq_arr) {
+					ctx.fillStyle = theme === 'ableton' ? '#282828' : (theme === 'light' ? '#ffffff' : '#000000');
+					ctx.fillRect(0, 0, WIDTH, HEIGHT);
+				}
 				else {
 					if (value_changed) return ;
 					value_changed = true;

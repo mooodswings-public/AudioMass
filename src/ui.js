@@ -1449,25 +1449,124 @@
 						action: function ( obj ) {
 							app.fireEvent ('RequestZoomUI', 0);
 						}
-					}
+					},
 
+					{
+						name:'---'
+					},
+
+					{
+						name:'Theme: Cyberpunk (Dark)',
+						action: function ( obj ) {
+							document.body.classList.remove('pk_theme_ableton', 'pk_theme_light');
+							localStorage.setItem('pk_theme', 'cyberpunk');
+							app.fireEvent('DidThemeChange', 'cyberpunk');
+							if (window.OneUp) OneUp('Theme switched to Cyberpunk (Dark)');
+						},
+						setup: function ( obj ) {
+							var update = function ( theme ) {
+								var txt = 'Theme: Cyberpunk (Dark)';
+								if (theme === 'cyberpunk' || !theme) {
+									obj.innerHTML = txt + ' &#10004;';
+								} else {
+									obj.textContent = txt;
+								}
+							};
+							var current = localStorage.getItem('pk_theme') || 'cyberpunk';
+							update(current);
+							app.listenFor('DidThemeChange', update);
+						}
+					},
+
+					{
+						name:'Theme: Ableton Live 12',
+						action: function ( obj ) {
+							document.body.classList.remove('pk_theme_light');
+							document.body.classList.add('pk_theme_ableton');
+							localStorage.setItem('pk_theme', 'ableton');
+							app.fireEvent('DidThemeChange', 'ableton');
+							if (window.OneUp) OneUp('Theme switched to Ableton Live 12');
+						},
+						setup: function ( obj ) {
+							var update = function ( theme ) {
+								var txt = 'Theme: Ableton Live 12';
+								if (theme === 'ableton') {
+									obj.innerHTML = txt + ' &#10004;';
+								} else {
+									obj.textContent = txt;
+								}
+							};
+							var current = localStorage.getItem('pk_theme') || 'cyberpunk';
+							update(current);
+							app.listenFor('DidThemeChange', update);
+						}
+					},
+
+					{
+						name:'Theme: Alabaster Light',
+						action: function ( obj ) {
+							document.body.classList.remove('pk_theme_ableton');
+							document.body.classList.add('pk_theme_light');
+							localStorage.setItem('pk_theme', 'light');
+							app.fireEvent('DidThemeChange', 'light');
+							if (window.OneUp) OneUp('Theme switched to Alabaster Light');
+						},
+						setup: function ( obj ) {
+							var update = function ( theme ) {
+								var txt = 'Theme: Alabaster Light';
+								if (theme === 'light') {
+									obj.innerHTML = txt + ' &#10004;';
+								} else {
+									obj.textContent = txt;
+								}
+							};
+							var current = localStorage.getItem('pk_theme') || 'cyberpunk';
+							update(current);
+							app.listenFor('DidThemeChange', update);
+						}
+					},
+					{
+						name:'---'
+					},
+					{
+						name:'Rainbow Waveforms',
+						action: function ( obj ) {
+							var current = localStorage.getItem('pk_rainbow_waveforms') === 'true';
+							localStorage.setItem('pk_rainbow_waveforms', !current);
+							app.fireEvent('DidThemeChange', localStorage.getItem('pk_theme') || 'cyberpunk');
+							if (window.OneUp) OneUp( !current ? 'Rainbow Waveforms Enabled' : 'Rainbow Waveforms Disabled');
+						},
+						setup: function ( obj ) {
+							var update = function () {
+								var txt = 'Rainbow Waveforms';
+								var current = localStorage.getItem('pk_rainbow_waveforms') === 'true';
+								if (current) {
+									obj.innerHTML = txt + ' &#10004;';
+								} else {
+									obj.textContent = txt;
+								}
+							};
+							update();
+							app.listenFor('DidThemeChange', update);
+						}
+					}
 				]
 			},
 			{
 				name:'Help',
 				children:[
 					{
-						name   : 'Store Offline Version',
-						action : function () {
-							if (window.location.href.indexOf('-cache') > 0) {
-
-								function onUpdateReady ( e ) {
+						name:'Store Offline Version',
+						action: function ( obj ) {
+							if (window.applicationCache)
+							{
+								var onUpdateReady = function ( e ) {
 									if (confirm ('Would you like to refresh the page to load the newer version?'))
 										window.location.reload();
-								}
-								function downLoading ( e ) {
+								};
+								var downLoading = function ( e ) {
 									OneUp ('Downloading newer version', 1500);
-								}
+								};
 
 								window.applicationCache.onupdateready = onUpdateReady;
 								window.applicationCache.ondownloading = downLoading;

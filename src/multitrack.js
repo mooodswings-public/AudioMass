@@ -246,9 +246,34 @@
 		}
 
 		function trackColor ( id ) {
+			var theme = 'cyberpunk';
+			if (document.body.classList.contains('pk_theme_ableton')) theme = 'ableton';
+			else if (document.body.classList.contains('pk_theme_light')) theme = 'light';
+
+			var colors = track_colors;
+			if (theme === 'ableton') {
+				colors = [
+					['#ff3a85', '#151515', '#ff3a85'], // Pink/Magenta
+					['#00ccff', '#151515', '#00ccff'], // Light Blue
+					['#00ffcc', '#151515', '#00ffcc'], // Mint
+					['#ff9933', '#151515', '#ff9933'], // Ableton Orange
+					['#ffcc00', '#151515', '#ffcc00'], // Yellow
+					['#a066ff', '#151515', '#a066ff']  // Purple
+				];
+			} else if (theme === 'light') {
+				colors = [
+					['#fda4af', '#1a1e24', '#f87171'], // Softer Rose
+					['#7dd3fc', '#1a1e24', '#38bdf8'], // Softer Sky
+					['#86efac', '#1a1e24', '#4ade80'], // Softer Green
+					['#fdba74', '#1a1e24', '#fb923c'], // Softer Orange
+					['#fde047', '#1a1e24', '#facc15'], // Softer Yellow
+					['#d8b4fe', '#1a1e24', '#c084fc']  // Softer Purple
+				];
+			}
+
 			for (var i = 0; i < tracks.length; ++i)
-				if (tracks[i].id === id) return track_colors[i % track_colors.length];
-			return track_colors[0];
+				if (tracks[i].id === id) return colors[i % colors.length];
+			return colors[0];
 		}
 
 		function cloneState () {
@@ -1136,11 +1161,20 @@
 		}
 
 		function renderTrack ( track, top, h ) {
+			var track_index = 0;
+			for (var i = 0; i < tracks.length; ++i) {
+				if (tracks[i].id === track.id) {
+					track_index = i;
+					break;
+				}
+			}
+
 			var row = d.createElement ('div');
 			row.className = 'pk_mt_track' +
 				(track.id === selected_track ? ' pk_mt_sel' : '') +
 				(h < 72 ? ' pk_mt_compact' : '') +
-				(h < 62 ? ' pk_mt_tiny' : '');
+				(h < 62 ? ' pk_mt_tiny' : '') +
+				' pk_track_color_' + (track_index % 6);
 			row.setAttribute ('data-track', track.id);
 			row.style.height = h + 'px';
 
@@ -1249,7 +1283,8 @@
 			}, false);
 
 			var lane = d.createElement ('div');
-			lane.className = 'pk_mt_lane' + (track.id === selected_track ? ' pk_mt_sel' : '');
+			lane.className = 'pk_mt_lane' + (track.id === selected_track ? ' pk_mt_sel' : '') +
+				' pk_track_color_' + (track_index % 6);
 			lane.style.top = top + 'px';
 			lane.style.height = h + 'px';
 			lane.setAttribute ('data-track', track.id);
@@ -2403,6 +2438,34 @@
 			}
 		}
 
+		function getRainbowColor (data, off, end) {
+			var zcr = 0;
+			var sampleCount = Math.min(120, end - off);
+			if (sampleCount > 1) {
+				var prev = data[off];
+				for (var i = 1; i < sampleCount; ++i) {
+					var curr = data[off + i];
+					if ((prev < 0 && curr >= 0) || (prev >= 0 && curr < 0)) {
+						zcr++;
+					}
+					prev = curr;
+				}
+			}
+			var rate = sampleCount > 1 ? zcr / (sampleCount - 1) : 0;
+			var hue = Math.min(240, Math.round(rate * 600));
+			
+			var isLight = document.body.classList.contains('pk_theme_light');
+			var isAbleton = document.body.classList.contains('pk_theme_ableton');
+			
+			if (isLight) {
+				return 'hsl(' + hue + ', 80%, 40%)';
+			} else if (isAbleton) {
+				return 'hsl(' + hue + ', 90%, 25%)';
+			} else {
+				return 'hsl(' + hue + ', 95%, 65%)';
+			}
+		}
+
 		function drawWave ( clip, canvas, w, h, tone ) {
 			var buffer = clip.buffer;
 			var pw = w !== undefined ? w : canvas.parentNode.offsetWidth;
@@ -2425,6 +2488,8 @@
 			var step = Math.max (1, (len / wdt) >> 0);
 			var mid = hgt >> 1;
 
+			var rainbow = localStorage.getItem ('pk_rainbow_waveforms') === 'true';
+
 			if (step >= wave_peak_step) {
 				var peaks = getWavePeaks ( buffer );
 				var peak_max = peaks.max;
@@ -2443,6 +2508,9 @@
 						if (peak_max[p] > max) max = peak_max[p];
 						if (peak_min[p] < min) min = peak_min[p];
 					}
+					if (rainbow) {
+						ctx.fillStyle = getRainbowColor (data, off, end);
+					}
 					ctx.fillRect (x, mid - (max * mid), 1, Math.max (1, (max - min) * mid));
 				}
 				drawClipFades ( ctx, clip, wdt, hgt );
@@ -2453,10 +2521,14 @@
 				var max2 = 0;
 				var min2 = 0;
 				var off2 = from + x2 * step;
+				var end2 = Math.min (to, off2 + step);
 				for (var j2 = 0; j2 < step; j2 += 24) {
 					var v2 = data[off2 + j2] || 0;
 					if (v2 > max2) max2 = v2;
 					else if (v2 < min2) min2 = v2;
+				}
+				if (rainbow) {
+					ctx.fillStyle = getRainbowColor (data, off2, end2);
 				}
 				ctx.fillRect (x2, mid - (max2 * mid), 1, Math.max (1, (max2 - min2) * mid));
 			}
@@ -5506,6 +5578,10 @@
 		});
 		app.listenFor ('RequestDetachClipEditor', function () {
 			editing_clip = null;
+		});
+
+		app.listenFor ('DidThemeChange', function () {
+			if (IsOn ()) render ();
 		});
 
 		tracks.push ( makeTrack ('Channel 1') );

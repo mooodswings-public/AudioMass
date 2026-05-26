@@ -1,0 +1,474 @@
+/* =============================================================
+   AudioMass - Professional Theme Extension (Ableton & Light)
+   Designed in pair-programming for Pantelis Kalogiros
+   ============================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* =============================================================
+   1. Ableton Live 12 Premium Theme
+   ============================================================= */
+.pk_theme_ableton {
+	/* Font Overrides (Clean Modern Sans and Mono) */
+	--ff: 'Inter', -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	--ff-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+
+	/* Ableton 12 Flat Color Palette */
+	--bg-0: #1b1b1b;              /* Active Arrangement Grid View */
+	--bg-1: #282828;              /* Menu Bar, Transport Shell */
+	--bg-2: #2f2f2f;              /* Track lanes grid canvas */
+	--bg-3: #383838;              /* Subpanels, Track Headers, Sidebar */
+	--bg-4: #464646;              /* Elevated buttons, active inputs */
+
+	--fg-0: #fdfdfd;              /* Primary text (Crisp White) */
+	--fg-1: #c5c5c5;              /* Secondary labels (Mid Gray) */
+	--fg-2: #8c8c8c;              /* Muted text (Dark Gray) */
+	--fg-3: #4f4f4f;              /* Separation lines & border outlines */
+
+	/* Ableton Signature Warm Orange Accent */
+	--ac: #ff9933;
+	--ac-2: #e0771f;
+	--ac-soft: rgba(255, 153, 51, 0.08);
+	--ac-glow: rgba(255, 153, 51, 0.22);
+	--ac-ink: #1b1b1b;            /* High legibility dark text inside accent buttons */
+
+	/* DAW Status Indicators */
+	--rec: #ff3a3a;
+	--rec-glow: rgba(255, 58, 58, 0.22);
+	--solo: #00ccff;
+	--solo-glow: rgba(0, 204, 255, 0.22);
+	--warn: #ffcc00;
+	--ok: #2ecc71;
+	--pl: #00ffcc;                /* Signature mint-green playhead */
+
+	/* Structural Borders */
+	--bd: #232323;
+	--bd-s: #282828;
+	--bd-h: #ff9933;              /* Selected border active glow */
+
+	/* Aesthetics */
+	--r: 0px;                     /* Strictly sharp flat corners */
+	--r-md: 1px;
+	--r-lg: 2px;
+	--glow: 0 0 0 1px var(--ac);
+	--inset-hi: none;
+}
+
+/* Ableton Component Styling Overrides */
+.pk_theme_ableton body,
+.pk_theme_ableton html {
+	font-weight: 500;
+	letter-spacing: -0.15px;
+}
+
+/* Flat Sharp Buttons */
+.pk_theme_ableton button,
+.pk_theme_ableton .pk_btn,
+.pk_theme_ableton .pk_btn > button,
+.pk_theme_ableton .pk_tb .pk_btn,
+.pk_theme_ableton .pk_mt_topbtn {
+	border-radius: var(--r) !important;
+	box-shadow: none !important;
+	text-shadow: none !important;
+}
+
+/* Active Top Menu Button */
+.pk_theme_ableton .pk_hdr .pk_btn.pk_act > button {
+	background: var(--bg-4) !important;
+	color: var(--ac) !important;
+	border: 1px solid var(--bd) !important;
+}
+
+/* Flat Dropdown Menus */
+.pk_theme_ableton .pk_menu {
+	border-radius: var(--r-md) !important;
+	border: 1px solid var(--fg-3) !important;
+	box-shadow: 0 8px 24px rgba(0,0,0,0.5) !important;
+	background: var(--bg-3) !important;
+}
+
+.pk_theme_ableton .pk_menu_el:hover button {
+	background: var(--ac) !important;
+	color: var(--bg-0) !important;
+}
+
+/* Collapsible Track Strips */
+.pk_theme_ableton .pk_mt_track {
+	background: var(--bg-2) !important;
+	border-bottom: 1px solid var(--bd) !important;
+	box-shadow: none !important;
+}
+
+.pk_theme_ableton .pk_mt_head {
+	background: var(--bg-3) !important;
+	border-right: 1px solid var(--bd) !important;
+}
+
+.pk_theme_ableton .pk_mt_clip {
+	border-radius: var(--r) !important;
+	box-shadow: none !important;
+	border: 1px solid var(--bd) !important;
+}
+
+/* Circular Flat Knobs */
+.pk_theme_ableton .pk_mt_knob {
+	background: var(--bg-1) !important;
+	border: 1px solid var(--fg-3) !important;
+	box-shadow: none !important;
+}
+
+.pk_theme_ableton .pk_mt_knob:hover {
+	border-color: var(--ac) !important;
+	box-shadow: 0 0 0 1px var(--ac) !important;
+}
+
+.pk_theme_ableton .pk_mt_knob:before {
+	font-family: var(--ff);
+	font-weight: 700;
+	color: var(--fg-1) !important;
+}
+
+.pk_theme_ableton .pk_mt_knob:after {
+	font-family: var(--ff-mono);
+	color: var(--fg-2) !important;
+}
+
+.pk_theme_ableton .pk_mt_knob i {
+	background: var(--ac) !important;
+	box-shadow: none !important;
+}
+
+/* Modals */
+.pk_theme_ableton .pk_modal {
+	background: var(--bg-3) !important;
+	border: 1px solid var(--fg-3) !important;
+	box-shadow: 0 12px 40px rgba(0,0,0,0.6) !important;
+	border-radius: var(--r-lg) !important;
+}
+
+.pk_theme_ableton .pk_modal_back {
+	background: rgba(0, 0, 0, 0.5) !important;
+	backdrop-filter: blur(1px);
+}
+
+.pk_theme_ableton .pk_modal_title {
+	border-bottom: 1px solid var(--bd) !important;
+	background: var(--bg-1) !important;
+}
+
+.pk_theme_ableton .pk_modal_bottom {
+	border-top: 1px solid var(--bd) !important;
+	background: var(--bg-1) !important;
+}
+
+.pk_theme_ableton .pk_modal_cancel,
+.pk_theme_ableton .pk_modal_a_bottom {
+	border-radius: var(--r-md) !important;
+	border: 1px solid var(--fg-3) !important;
+	background: var(--bg-4) !important;
+	color: var(--fg-0) !important;
+}
+
+.pk_theme_ableton .pk_modal_cancel:hover,
+.pk_theme_ableton .pk_modal_a_bottom:hover {
+	background: var(--ac) !important;
+	color: var(--ac-ink) !important;
+	border-color: var(--ac) !important;
+}
+
+/* Ableton Flat Scrollbars */
+.pk_theme_ableton *::-webkit-scrollbar {
+	width: 4px;
+	height: 4px;
+}
+.pk_theme_ableton *::-webkit-scrollbar-thumb {
+	background: var(--fg-3);
+	border-radius: 0px;
+}
+.pk_theme_ableton *::-webkit-scrollbar-track {
+	background: var(--bg-1);
+}
+
+
+/* =============================================================
+   2. Alabaster Light Theme
+   ============================================================= */
+.pk_theme_light {
+	/* Font Overrides */
+	--ff: 'Inter', -apple-system, system-ui, BlinkMacSystemFont, sans-serif;
+	--ff-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+	/* Soft Daylight Material Palette */
+	--bg-0: #f4f5f8;              /* Main viewport bg */
+	--bg-1: #eef0f3;              /* Toolbars */
+	--bg-2: #ffffff;              /* Track lanes grid paper */
+	--bg-3: #e6e9ee;              /* Sidebar / sub-panel wrappers */
+	--bg-4: #dbdee4;              /* Buttons & elevated controls */
+
+	--fg-0: #1a1e24;              /* Deep charcoal primary text */
+	--fg-1: #485260;              /* Mid slate gray text */
+	--fg-2: #7c889a;              /* Secondary labels */
+	--fg-3: #b0bac9;              /* Grid separations & structural lines */
+
+	/* Electric Royal Blue Accent */
+	--ac: #0073e6;
+	--ac-2: #005cb8;
+	--ac-soft: rgba(0, 115, 230, 0.08);
+	--ac-glow: rgba(0, 115, 230, 0.18);
+	--ac-ink: #ffffff;
+
+	/* DAW Status Indicators */
+	--rec: #d92332;
+	--solo: #0081a2;
+	--pl: #ea580c;                /* Warm orange playhead */
+
+	/* Structural Borders */
+	--bd: #d0d6e2;
+	--bd-s: #e6e9ee;
+	--bd-h: #0073e6;
+
+	/* Aesthetics */
+	--r: 3px;
+	--r-md: 4px;
+	--r-lg: 6px;
+	--glow: 0 0 0 1px var(--ac);
+	--inset-hi: inset 0 1px 0 rgba(255,255,255,0.6);
+}
+
+/* Light Component Overrides */
+.pk_theme_light .pk_mt_track {
+	background: var(--bg-2) !important;
+	border-bottom: 1px solid var(--bd) !important;
+}
+
+.pk_theme_light .pk_mt_head {
+	background: var(--bg-1) !important;
+	border-right: 1px solid var(--bd) !important;
+}
+
+.pk_theme_light .pk_mt_clip {
+	border-radius: var(--r-md) !important;
+	border: 1px solid var(--bd) !important;
+}
+
+.pk_theme_light .pk_menu {
+	border-radius: var(--r-md) !important;
+	border: 1px solid var(--bd) !important;
+	box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
+	background: var(--bg-2) !important;
+}
+
+.pk_theme_light .pk_menu_el:hover button {
+	background: var(--ac) !important;
+	color: var(--ac-ink) !important;
+}
+
+.pk_theme_light .pk_modal {
+	background: var(--bg-2) !important;
+	border: 1px solid var(--bd) !important;
+	box-shadow: 0 12px 36px rgba(0,0,0,0.15) !important;
+}
+
+.pk_theme_light .pk_modal_back {
+	background: rgba(255, 255, 255, 0.45) !important;
+	backdrop-filter: blur(2px);
+}
+
+.pk_theme_light .pk_modal_cancel,
+.pk_theme_light .pk_modal_a_bottom {
+	border: 1px solid var(--bd) !important;
+	background: var(--bg-1) !important;
+	color: var(--fg-0) !important;
+}
+
+.pk_theme_light .pk_modal_cancel:hover,
+.pk_theme_light .pk_modal_a_bottom:hover {
+	background: var(--ac) !important;
+	color: var(--ac-ink) !important;
+	border-color: var(--ac) !important;
+}
+
+/* Flat Thin Scrollbars for Light theme */
+.pk_theme_light *::-webkit-scrollbar {
+	width: 5px;
+	height: 5px;
+}
+.pk_theme_light *::-webkit-scrollbar-thumb {
+	background: var(--fg-3);
+	border-radius: 4px;
+}
+.pk_theme_light *::-webkit-scrollbar-track {
+	background: var(--bg-0);
+}
+
+/* =============================================================
+   3. Dynamic Channel/Track Colors & DAW Integration
+   ============================================================= */
+
+/* --- Ableton Live 12 Channel Styling --- */
+.pk_theme_ableton .pk_mt_track {
+	border-left: 6px solid var(--track-color) !important;
+	border-bottom: 1px solid var(--bd) !important;
+	background: var(--bg-3) !important;
+	transition: background 0.15s ease, border-color 0.15s ease;
+}
+.pk_theme_ableton .pk_mt_track input {
+	background: var(--bg-1) !important;
+	border: 1px solid var(--fg-3) !important;
+	color: var(--fg-0) !important;
+}
+.pk_theme_ableton .pk_mt_track.pk_mt_sel {
+	background: var(--bg-2) !important;
+	box-shadow: inset 1px 0 0 var(--track-color) !important;
+}
+.pk_theme_ableton .pk_mt_track.pk_mt_sel input {
+	border-color: var(--track-color) !important;
+}
+.pk_theme_ableton .pk_mt_lane {
+	border-bottom: 1px solid var(--bd) !important;
+}
+.pk_theme_ableton .pk_mt_lane.pk_mt_sel {
+	background: var(--bg-0) !important;
+}
+.pk_theme_ableton .pk_mt_clip {
+	background: var(--mt-bg) !important;
+	border: 1px solid var(--mt-br) !important;
+	box-shadow: none !important;
+}
+.pk_theme_ableton .pk_mt_clip span {
+	color: #1b1b1b !important;
+	font-weight: 600;
+	text-shadow: none !important;
+}
+/* Ableton Active Buttons */
+.pk_theme_ableton .pk_mt_track button.pk_mt_mute.pk_act,
+.pk_theme_ableton .pk_mt_head button.pk_mt_mute.pk_act {
+	background: #e0771f !important;
+	color: #1b1b1b !important;
+	border-color: #e0771f !important;
+}
+.pk_theme_ableton .pk_mt_track button.pk_mt_solo.pk_act,
+.pk_theme_ableton .pk_mt_head button.pk_mt_solo.pk_act {
+	background: #00ccff !important;
+	color: #1b1b1b !important;
+	border-color: #00ccff !important;
+}
+.pk_theme_ableton .pk_mt_track button.pk_mt_rec.pk_act,
+.pk_theme_ableton .pk_mt_head button.pk_mt_rec.pk_act {
+	background: #ff3a3a !important;
+	color: #fdfdfd !important;
+	border-color: #ff3a3a !important;
+}
+
+/* Ableton Channel Colors (0 to 5) */
+.pk_theme_ableton .pk_track_color_0 { --track-color: #ff3a85; }
+.pk_theme_ableton .pk_track_color_1 { --track-color: #00ccff; }
+.pk_theme_ableton .pk_track_color_2 { --track-color: #00ffcc; }
+.pk_theme_ableton .pk_track_color_3 { --track-color: #ff9933; }
+.pk_theme_ableton .pk_track_color_4 { --track-color: #ffcc00; }
+.pk_theme_ableton .pk_track_color_5 { --track-color: #a066ff; }
+
+
+/* --- Alabaster Light Channel Styling --- */
+.pk_theme_light .pk_mt_track {
+	border-left: 6px solid var(--track-color) !important;
+	border-bottom: 1px solid var(--bd) !important;
+	background: var(--bg-1) !important;
+	transition: background 0.15s ease;
+}
+.pk_theme_light .pk_mt_track input {
+	background: var(--bg-2) !important;
+	border: 1px solid var(--bd) !important;
+	color: var(--fg-0) !important;
+}
+.pk_theme_light .pk_mt_track.pk_mt_sel {
+	background: var(--bg-2) !important;
+}
+.pk_theme_light .pk_mt_track.pk_mt_sel input {
+	border-color: var(--track-color) !important;
+}
+.pk_theme_light .pk_mt_lane {
+	border-bottom: 1px solid var(--bd) !important;
+}
+.pk_theme_light .pk_mt_lane.pk_mt_sel {
+	background: var(--bg-0) !important;
+}
+.pk_theme_light .pk_mt_clip {
+	background: var(--mt-bg) !important;
+	border: 1px solid var(--mt-br) !important;
+	box-shadow: none !important;
+}
+.pk_theme_light .pk_mt_clip span {
+	color: #1a1e24 !important;
+	font-weight: 600;
+	text-shadow: none !important;
+}
+/* Light Theme Active Buttons */
+.pk_theme_light .pk_mt_track button.pk_mt_mute.pk_act,
+.pk_theme_light .pk_mt_head button.pk_mt_mute.pk_act {
+	background: #ea580c !important;
+	color: #ffffff !important;
+	border-color: #ea580c !important;
+}
+.pk_theme_light .pk_mt_track button.pk_mt_solo.pk_act,
+.pk_theme_light .pk_mt_head button.pk_mt_solo.pk_act {
+	background: #0081a2 !important;
+	color: #ffffff !important;
+	border-color: #0081a2 !important;
+}
+.pk_theme_light .pk_mt_track button.pk_mt_rec.pk_act,
+.pk_theme_light .pk_mt_head button.pk_mt_rec.pk_act {
+	background: #d92332 !important;
+	color: #ffffff !important;
+	border-color: #d92332 !important;
+}
+
+/* Light Theme Channel Colors (0 to 5) */
+.pk_theme_light .pk_track_color_0 { --track-color: #fda4af; }
+.pk_theme_light .pk_track_color_1 { --track-color: #7dd3fc; }
+.pk_theme_light .pk_track_color_2 { --track-color: #86efac; }
+.pk_theme_light .pk_track_color_3 { --track-color: #fdba74; }
+.pk_theme_light .pk_track_color_4 { --track-color: #fde047; }
+.pk_theme_light .pk_track_color_5 { --track-color: #d8b4fe; }
+
+/* Flexbox Toolbar Layouts to prevent overlapping */
+.pk_theme_ableton .pk_tb,
+.pk_theme_light .pk_tb {
+	display: flex !important;
+	flex-wrap: wrap !important;
+	height: auto !important;
+	min-height: 48px !important;
+	align-items: center !important;
+	gap: 8px 12px !important;
+	padding: 8px 14px !important;
+	box-sizing: border-box !important;
+}
+
+.pk_theme_ableton .pk_timecontainer,
+.pk_theme_ableton .pk_selection,
+.pk_theme_ableton .pk_transport,
+.pk_theme_ableton .pk_ctns,
+.pk_theme_ableton .pk_btngroup,
+.pk_theme_light .pk_timecontainer,
+.pk_theme_light .pk_selection,
+.pk_theme_light .pk_transport,
+.pk_theme_light .pk_ctns,
+.pk_theme_light .pk_btngroup {
+	float: none !important;
+	margin-right: 0 !important;
+}
+
+.pk_theme_ableton .pk_total_dur,
+.pk_theme_ableton .pk_hover_dur,
+.pk_theme_light .pk_total_dur,
+.pk_theme_light .pk_hover_dur {
+	position: static !important;
+	font-size: 11px !important;
+	line-height: 1.2 !important;
+	margin-left: auto;
+}
+
+.pk_theme_ableton .pk_hover_dur,
+.pk_theme_light .pk_hover_dur {
+	margin-left: 12px !important;
+}
