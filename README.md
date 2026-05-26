@@ -46,5 +46,14 @@ AudioMass Multitrack<img width="1728" height="1082" alt="image" src="https://git
 
 If you want to package/minify the scripts into `all.build.js` for production publishing, you can run:
 
+---
+
+## Credits
+
+Respect abd credits go to https://github.com/pkalogiros
+
+
 ```bash
 cat dist/wavesurfer.js dist/plugin/wavesurfer.regions.js oneup.js app.js keys.js contextmenu.js lufs.js ui-fx.js ui.js modal.js state.js engine.js actions.js drag.js recorder.js multitrack.js welcome.js fx-pg-eq.js fx-auto.js local.js id3.js lzma.js | uglifyjs -c -m -o all.build.js
+
+
