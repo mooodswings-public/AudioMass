@@ -12,19 +12,19 @@ This fork enhances the original AudioMass codebase with a premium Ableton Live 1
 
 ---
 
-## 🚀 Key Additions in this Fork
+## Key Additions in this Fork
 
 ### 🎛️ Ableton Live 12 theme
 * **Ableton Live 12 Theme**: Instantly switch to a professional dark production environment via the **View** menu.
 * **Dynamic Track Colors**: Channel headers, inputs, and canvas clips dynamically style in vibrant, Ableton-matching color accents based on track order.
 * **DAW-inspired Controls**: Flat custom scrollbars, clean button states, and color-coded statuses (amber for Mute, cyan for Solo, red for Arm/Record).
 
-### 🌈 Zero Crossing Rate (ZCR) Rainbow Waveforms
+### Zero Crossing Rate (ZCR) Rainbow Waveforms
 * **Frequency Mapping**: Visualizes frequency density directly on the audio clip. Low frequencies render in warm orange/reds, and high frequencies render in cool blues.
 * **Toggleable & Persistent**: Easily toggle Rainbow Waveforms from the **View** menu. The setting is stored in `localStorage` and automatically loaded on startup.
 * **High Performance**: Employs an `O(1)` zero crossing rate algorithm capped at 120 samples per horizontal pixel column, ensuring fluid rendering performance (< 1.5ms per draw loop) during zooms and pans.
 
-### 📊 Modernized Visualizer Engines
+### Modernized Visualizer Engines
 * **Spectrogram (`sp.html`)**: Now features dynamic Ableton Live theme color interpolation, smooth contrast gradients, and a fixed division-by-zero color scaling bug.
 * **Frequency Analyser (`eq.html`)**: Rewritten to detect the master window's theme class. Renders in a modern, Minimeters-inspired look with a 1px visual gap spacing between frequency bands.
 
@@ -33,7 +33,7 @@ This fork enhances the original AudioMass codebase with a premium Ableton Live 1
 
 ---
 
-## ⚡ Setup & Local Running
+## Setup & Local Running
 
 1. Checkout this repository (or download it as a zip).
 2. Navigate to it in your terminal, then access the `src` directory.
@@ -42,7 +42,7 @@ This fork enhances the original AudioMass codebase with a premium Ableton Live 1
 
 ---
 
-## 🛠️ Production Build Pipeline
+## Production Build Pipeline
 
 If you want to package/minify the scripts into `all.build.js` for production publishing, you can run:
 
