@@ -1,7 +1,7 @@
 # AudioMass (Enhanced Edition)
 Free full-featured web-based audio & waveform editing tool.
 
-Live: [https://audiomass.co](https://audiomass.co)
+Live: https://audiomass.netlify.app/
 
 ### Now with Ableton Live 12 Theme!
 
