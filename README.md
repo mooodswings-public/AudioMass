@@ -3,7 +3,7 @@ Free full-featured web-based audio & waveform editing tool.
 
 Live: [https://audiomass.co](https://audiomass.co)
 
-### Now with Multitrack Support & Ableton Live 12 Theme!
+### Now with Ableton Live 12 Theme!
 
 This fork enhances the original AudioMass codebase with a premium Ableton Live 12 theme, customizable visualization tools, and Zero Crossing Rate (ZCR) frequency colorized waveforms, built natively on top of the original zero-dependency architecture.
 
