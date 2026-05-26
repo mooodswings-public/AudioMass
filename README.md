@@ -7,7 +7,7 @@ Live: https://audiomass.co/
 
 This fork enhances the original AudioMass codebase with a premium Ableton Live 12 theme, customizable visualization tools, and Zero Crossing Rate (ZCR) frequency colorized waveforms, built natively on top of the original zero-dependency architecture.
 
-![AudioMass Multitrack<img width="1728" height="1082" alt="image" src="https://github.com/user-attachments/assets/099c6595-7f75-4ca6-9906-bbff3ff771e9" />
+AudioMass Multitrack<img width="1728" height="1082" alt="image" src="https://github.com/user-attachments/assets/099c6595-7f75-4ca6-9906-bbff3ff771e9" />
 
 
 ---
